@@ -1,7 +1,8 @@
-
 ---
 title: Using AWS - Billing information
-layout: post
+
+
+layout: POST
 ---
 
 # Using AWS - Billing information

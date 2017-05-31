@@ -1,6 +1,8 @@
---------
+---
 title: Typescript cheatsheet
-layout: post
---------
+
+
+layout: POST
+---
 
 Typescript cheatsheet coming soon!
