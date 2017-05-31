@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Using AWS - Billing information
 ---
 
