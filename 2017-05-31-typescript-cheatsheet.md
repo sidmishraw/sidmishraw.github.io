@@ -121,7 +121,8 @@ console.log("outside y = " +y); // output: outside y = 10
 
 * Can begin with an alphabet`[a-zA-Z]`, `$` or `_` followed by `[a-zA-Z0-9$_]`.
 * The types are optional in typescript.
-* Can use ```typeof(identifier)``` to find the type of the identifier/variable.
+* Can use `typeof(identifier)` to find the type of the identifier/variable.
+
 ```typescript
 let $dollar123 = "";
 let myName:string = "Sidmishraw";
