@@ -5,3 +5,4 @@ highlighter: rouge
 paginate: 10
 safe: true
 lsi: false
+permalink: pretty
