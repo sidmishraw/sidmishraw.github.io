@@ -5,4 +5,8 @@ highlighter: rouge
 paginate: 10
 safe: true
 lsi: false
-permalink: pretty
+permalink: date
+paginate_path: /page:num
+collections:
+  posts:
+    output:   true
