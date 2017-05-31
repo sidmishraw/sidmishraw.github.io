@@ -1,8 +1,6 @@
 ---
+layout: default
 title: My Blog
-
-
-layout: DEFAULT
 ---
 
 # Welcome to my blog:

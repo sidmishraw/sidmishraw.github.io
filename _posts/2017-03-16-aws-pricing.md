@@ -1,8 +1,6 @@
 ---
+layout: post
 title: Using AWS - Billing information
-
-
-layout: POST
 ---
 
 # Using AWS - Billing information
