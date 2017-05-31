@@ -1,5 +1,5 @@
 theme: jekyll-theme-hacker
-markdown: redcarpet
+markdown: kramdown
 encoding: UTF-8                
 highlighter: pygments          # rouge now causes Page Build Failure on GitHub
 paginate: 10                   # blog posts per page
