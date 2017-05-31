@@ -1,7 +1,8 @@
 ---
-layout: post
+layout: page
 title: Using AWS and billing information
 ---
+
 # Using AWS - Billing information
 ### Free Tier - t2.micro instances:
 ### Usage:
