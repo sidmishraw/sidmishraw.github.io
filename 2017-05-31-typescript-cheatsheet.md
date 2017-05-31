@@ -488,6 +488,6 @@ Similiar to generics in Java, C++ and C#
  document.write("5 + 6 = " + aStrNum.add("5", "6") + "<br />");
 ```
 
-##### Sources:
+##### References:
 * [Derek Banas - Typescript in one video script](http://www.newthinktank.com/2016/09/typescript-video-tutorial/)
 * [Typescript Handbook](https://www.typescriptlang.org/docs/handbook/basic-types.html)
