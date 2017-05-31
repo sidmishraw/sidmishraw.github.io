@@ -5,8 +5,3 @@ highlighter: rouge
 paginate: 10
 safe: true
 lsi: false
-permalink: date
-paginate_path: /page:num
-collections:
-  posts:
-    output:   true
