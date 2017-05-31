@@ -1,7 +1,8 @@
---------
+
+---
 title: My Blog
 layout: default
---------
+---
 
 # Welcome to my blog:
 
