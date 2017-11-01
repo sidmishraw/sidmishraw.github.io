@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sid's Log - Linux (CentOS) Cheatsheet for setting up MapR sandbox from scratch Part#1</title>
+    <link rel="stylesheet" href="../css/default.css" />
+    <link rel="stylesheet" href="../css/code.css" />
+    <link rel="stylesheet" href="../css/github-like.css" />
+    <link rel="stylesheet" href="../css/loader.css" />
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/github.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="../">Sid's Log</a>
+        </div>
+        <nav>
+            <a href="../">Home</a>
+            <a href="../about.html">About</a>
+            <a href="../projects.html">Projects</a>
+            <a href="../archive.html">Archive</a>
+        </nav>
+    </header>
+
+    <main role="main">
+        <h1>Linux (CentOS) Cheatsheet for setting up MapR sandbox from scratch Part#1</h1>
+        <article>
+    <section class="header">
+        Posted on September 18, 2016
+        
+            by Sidharth Mishra <sidmishraw>
+        
+    </section>
+    <section>
+        <blockquote>
+<p><code>Note: This is a log of my experiences with the Linux operating system, focusing mainly on the terminal environment. I'm writing this so that it can save me the time and effort for searching the fix when I break something.</code></p>
+</blockquote>
+<h3 id="listing-out-specifications">Listing out specifications:</h3>
+<ul>
+<li><p>Operating system : CentOS 6.7/6.8 (Red Hat 64 Bit)</p></li>
+<li><p>RAM : 8192 MB ~ 8GB</p></li>
+<li><p>Storage Space :</p>
+<ul>
+<li><p>SATA Port 0 - 16GB</p></li>
+<li><p>SATA Port 1 - 8GB</p></li>
+<li><p>SATA Port 2 - 8GB</p></li>
+<li><p>SATA Port 3 - 8GB</p></li>
+</ul></li>
+<li><p>Video Memory - 6 MB (this is more than enough xD)</p></li>
+</ul>
+<p>I had the full GUI version(KDE) of CentOS with me. When our instructor asked us to install MapR sandbox on CentOS, I went ahead and installed it on my version of CentOS.</p>
+<p><strong>There were two major hiccups while running MapR services on my box.</strong></p>
+<ul>
+<li><p>When mapr services started, they consumed <code>78 - 85%</code> of the memory allocated to the box. Everything was fine when the box was idle, but the moment I started using ssh and stuff, the services started producing all kinds of problems (couldn’t even abort).</p></li>
+<li><p>The hostname file <code>/opt/mapr/hostname</code> was getting overwritten by <code>mapr-warden service</code> all the time.</p></li>
+</ul>
+<p><strong>Solutions to the above problems:</strong></p>
+<ul>
+<li>Recalling back, our instructor had asked us to install the <a href="http://isoredirect.centos.org/centos/6/isos/x86_64/">CentOS 6.7 x64 (minimal ISO)</a> but, I was using the full GUI version. This got me thinking, maybe, it was my desktop environment that was chugging up some of my RAM. So, I went ahead and removed the GUI components from my CentOS installation. Although not effective, it did give me a slight improvement because the memory consumption went down by approximately <code>10% (to 68-70%)</code>.</li>
+</ul>
+<p><strong>Details of the steps followed and packages removed:</strong></p>
+<blockquote>
+<p><code>Note:  &quot;yum&quot; is the package manager on CentOS like &quot;apt&quot; is on Debian/Ubuntu</code></p>
+</blockquote>
+<blockquote>
+<p><code>Note</code>: <code>The</code> <a href="https://www.digitalocean.com/community/tutorials/package-management-basics-apt-yum-dnf-pkg">DigitalOcean website</a> <code>has a great deal of information about different package managers.</code></p>
+</blockquote>
+<ol style="list-style-type: decimal">
+<li><p>Using the following commands I fetched the of <code>program groups</code> or <code>grouplist</code>.</p>
+<pre class="bash-shell"><code>yum grouplist</code></pre>
+<p>Use the command pipe below to get a better view of the text in the terminal. This allows one to scroll up and down in the terminal using arrow keys. We are basically piping the output of the <code>yum grouplist</code> command to <code>less</code> which is displaying it.</p>
+<pre class="bash-shell"><code>yum grouplist | less -s</code></pre></li>
+<li><p>This loaded the <code>Installed Groups</code>, <code>Installed Language Groups and Available Groups</code>, and <code>Available Language Groups</code>. I looked for installed groups with word <code>&quot;desktop&quot;</code> in them in the <code>Installed Language Groups</code>.</p>
+<pre class="bash-shell"><code>yum grouplist -v | less -s | grep desktop</code></pre>
+<blockquote>
+<p><code>Note: Although it saved some trouble scrolling down the long list, but it didn't show if the text was under installed group or available one.</code></p>
+</blockquote></li>
+<li><p>I narrowed down the packages to the following:</p>
+<ul>
+<li><p>kde-desktop</p></li>
+<li><p>desktop-debugging</p></li>
+<li><p>desktop-platform</p></li>
+<li><p>general-desktop</p></li>
+<li><p>x11(X-window)</p></li>
+</ul>
+<p>After this, I went on removing them one by one(incase one failed) using the commands <code>yum remove @[package name]</code>.</p>
+<pre class="bash-shell"><code>yum remove @kde-desktop
+yum remove @desktop-debugging
+yum remove @desktop-platform
+yum remove @general-desktop
+yum remove @x11(X-window)</code></pre>
+<p>This took some time because it uninstalled KDE from my OS. It worked fine for <code>general-desktop</code> and <code>x11</code> but failed for <code>desktop-debugging</code> and <code>desktop-platform</code>. The reason was because the <code>desktop-debugging</code> and <code>desktop-platform</code> packages tried to uninstall <code>yum</code>. (It was like <code>yum</code> was asked to uninstall itself lol!)</p></li>
+<li><p>After the uninstall, I checked the resource consumption and it had gone down by 10%. Yay!</p></li>
+<li><p>I rebooted the system from the terminal.</p>
+<pre class="bash-shell"><code>reboot</code></pre></li>
+</ol>
+<p>Rest continued in <a href="../posts/2016-09-18-mapr-sandbox-centos-2.html">Part#2</a></p>
+    </section>
+</article>
+
+    </main>
+
+    <footer>
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </footer>
+</body>
+
+</html>

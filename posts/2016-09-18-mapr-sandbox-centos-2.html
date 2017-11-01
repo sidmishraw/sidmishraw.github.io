@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sid's Log - Linux (CentOS) Cheatsheet for setting up MapR sandbox from scratch Part#2</title>
+    <link rel="stylesheet" href="../css/default.css" />
+    <link rel="stylesheet" href="../css/code.css" />
+    <link rel="stylesheet" href="../css/github-like.css" />
+    <link rel="stylesheet" href="../css/loader.css" />
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/github.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="../">Sid's Log</a>
+        </div>
+        <nav>
+            <a href="../">Home</a>
+            <a href="../about.html">About</a>
+            <a href="../projects.html">Projects</a>
+            <a href="../archive.html">Archive</a>
+        </nav>
+    </header>
+
+    <main role="main">
+        <h1>Linux (CentOS) Cheatsheet for setting up MapR sandbox from scratch Part#2</h1>
+        <article>
+    <section class="header">
+        Posted on September 18, 2016
+        
+            by Sidharth Mishra <sidmishraw>
+        
+    </section>
+    <section>
+        <p>Continuing from <a href="../posts/2016-09-18-mapr-sandbox-centos-1.html">Part#1</a></p>
+<p>After I rebooted my system, there was only the CentOS bar thingy (in the screenshot below). The black screen was one of the various virtual terminals running in CentOS.</p>
+<p><img src="../images/centos-black-screen.png" style="border-radius: 18px;" /></p>
+<blockquote>
+<p>Note: <code>Ctrl + Alt + Fi (i = 1,2,3,4,5,6,7..)</code> are used to switch between the various virtual terminals.</p>
+</blockquote>
+<blockquote>
+<p>I went ahead with <code>Ctrl + Alt + F2</code> and logged in into the terminal and went on with my task. Yay!</p>
+</blockquote>
+<ul>
+<li>Checked <code>MapR admin panel</code> from browser dashboard of my host machine and saw a <code>10% drop</code> in memory consumption and MapR services were running. Yay! Mission Accomplished or so I thought.</li>
+</ul>
+<h3 id="actual-fix">Actual fix:</h3>
+<ol style="list-style-type: decimal">
+<li>Switch off the <code>warden</code> service.</li>
+</ol>
+<p><code>bash-shell   service mapr-warden stop</code></p>
+<ol start="2" style="list-style-type: decimal">
+<li>The memory consumption is tuned by updating the following properties in <code>warden.conf</code> file to the new values.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">service<span class="fu">.</span>command<span class="fu">.</span>cldb<span class="fu">.</span>heapsize<span class="fu">.</span>percent<span class="fu">=</span><span class="dv">8</span>
+service<span class="fu">.</span>command<span class="fu">.</span>cldb<span class="fu">.</span>heapsize<span class="fu">.</span>max<span class="fu">=</span><span class="dv">256</span>
+service<span class="fu">.</span>command<span class="fu">.</span>cldb<span class="fu">.</span>heapsize<span class="fu">.</span>min<span class="fu">=</span><span class="dv">256</span>
+service<span class="fu">.</span>command<span class="fu">.</span>mfs<span class="fu">.</span>heapsize<span class="fu">.</span>percent<span class="fu">=</span><span class="dv">15</span>
+service<span class="fu">.</span>command<span class="fu">.</span>mfs<span class="fu">.</span>heapsize<span class="fu">.</span>maxpercent<span class="fu">=</span><span class="dv">30</span>
+service<span class="fu">.</span>command<span class="fu">.</span>mfs<span class="fu">.</span>heapsize<span class="fu">.</span>min<span class="fu">=</span><span class="dv">512</span>
+service<span class="fu">.</span>command<span class="fu">.</span>webserver<span class="fu">.</span>heapsize<span class="fu">.</span>percent<span class="fu">=</span><span class="dv">3</span>
+service<span class="fu">.</span>command<span class="fu">.</span>webserver<span class="fu">.</span>heapsize<span class="fu">.</span>max<span class="fu">=</span><span class="dv">128</span>
+service<span class="fu">.</span>command<span class="fu">.</span>webserver<span class="fu">.</span>heapsize<span class="fu">.</span>min<span class="fu">=</span><span class="dv">128</span>
+service<span class="fu">.</span>command<span class="fu">.</span>nfs<span class="fu">.</span>heapsize<span class="fu">.</span>percent<span class="fu">=</span><span class="dv">3</span>
+service<span class="fu">.</span>command<span class="fu">.</span>nfs<span class="fu">.</span>heapsize<span class="fu">.</span>min<span class="fu">=</span><span class="dv">64</span>
+service<span class="fu">.</span>command<span class="fu">.</span>nfs<span class="fu">.</span>heapsize<span class="fu">.</span>max<span class="fu">=</span><span class="dv">64</span>
+service<span class="fu">.</span>command<span class="fu">.</span>os<span class="fu">.</span>heapsize<span class="fu">.</span>percent<span class="fu">=</span><span class="dv">10</span>
+service<span class="fu">.</span>command<span class="fu">.</span>os<span class="fu">.</span>heapsize<span class="fu">.</span>max<span class="fu">=</span><span class="dv">3000</span>
+service<span class="fu">.</span>command<span class="fu">.</span>os<span class="fu">.</span>heapsize<span class="fu">.</span>min<span class="fu">=</span><span class="dv">256</span>
+service<span class="fu">.</span>command<span class="fu">.</span>warden<span class="fu">.</span>heapsize<span class="fu">.</span>percent<span class="fu">=</span><span class="dv">1</span>
+service<span class="fu">.</span>command<span class="fu">.</span>warden<span class="fu">.</span>heapsize<span class="fu">.</span>max<span class="fu">=</span><span class="dv">256</span>
+service<span class="fu">.</span>command<span class="fu">.</span>warden<span class="fu">.</span>heapsize<span class="fu">.</span>min<span class="fu">=</span><span class="dv">64</span>
+service<span class="fu">.</span>command<span class="fu">.</span>zk<span class="fu">.</span>heapsize<span class="fu">.</span>percent<span class="fu">=</span><span class="dv">1</span>
+service<span class="fu">.</span>command<span class="fu">.</span>zk<span class="fu">.</span>heapsize<span class="fu">.</span>max<span class="fu">=</span><span class="dv">256</span>
+service<span class="fu">.</span>command<span class="fu">.</span>zk<span class="fu">.</span>heapsize<span class="fu">.</span>min<span class="fu">=</span><span class="dv">128</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Switch on the <code>warden</code> service.</li>
+</ol>
+<p><code>bash-shell   service mapr-warden start</code></p>
+    </section>
+</article>
+
+    </main>
+
+    <footer>
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </footer>
+</body>
+
+</html>

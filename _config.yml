@@ -1,7 +1,0 @@
-theme: jekyll-theme-hacker
-markdown: kramdown
-encoding: UTF-8                
-highlighter: rouge
-paginate: 10
-safe: true
-lsi: false
