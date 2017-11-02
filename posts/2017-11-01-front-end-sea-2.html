@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sid's Log - My second dive into the front-end sea</title>
+    <link rel="stylesheet" href="../css/default.css" />
+    <link rel="stylesheet" href="../css/code.css" />
+    <link rel="stylesheet" href="../css/github-like.css" />
+    <link rel="stylesheet" href="../css/loader.css" />
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/github.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="../">Sid's Log</a>
+        </div>
+        <nav>
+            <a href="../">Home</a>
+            <a href="../about.html">About</a>
+            <a href="../projects.html">Projects</a>
+            <a href="../archive.html">Archive</a>
+        </nav>
+    </header>
+
+    <main role="main">
+        <h1>My second dive into the front-end sea</h1>
+        <article>
+    <section class="header">
+        Posted on November  1, 2017
+        
+            by Sidharth Mishra <sidmishraw>
+        
+    </section>
+    <section>
+        <p></br></p>
+<p>Continuing over from <a href="../posts/2017-11-01-front-end-sea-1.html">Part#1</a></p>
+<p>After setting up the base project with <em>Babel</em>, <em>Webpack</em> and testing them out, I started dabbling in <em>React</em> itself.</p>
+<p>Before jumping into <em>React</em>, logging a brief review about <em>Webpack</em>.</p>
+<p></br> </br></p>
+<h3 id="webpack-do-i-need-it">Webpack, do I need it?</h3>
+<p>Looking at how webpack bundles stuff, it does prove its place in my stack.</p>
+<p></br> </br></p>
+<h3 id="is-webpack-inspiring">Is Webpack inspiring?</h3>
+<p>I like bundlers and package managers, but, <em>Webpack</em> is verbose :(</p>
+<p>The verbosity is manageable if the <code>webpack.config.js</code> is not changed all the time.</p>
+<blockquote>
+<p>Note: Looking at how people implement their builds, I’m assuming it is not changed most of the time.</p>
+</blockquote>
+<p><em>Webpack</em> is inspiring. Using code to cut down on redundant tasks is awesome and should be the norm.</p>
+<p></br> </br></p>
+<h3 id="brief-dive-into-webpack-basics-ripping-off-of-webpack-docs-sry-folks-but-it-is-well-written-xd">Brief dive into Webpack basics (ripping off of Webpack docs, sry folks but it is well written xD):</h3>
+<p></br></p>
+<p>Webpack has 4 core concepts:</p>
+<p></br></p>
+<ul>
+<li><p><a href="https://webpack.js.org/concepts/#entry"><strong>Entry</strong></a></p>
+<p>An entry point indicates which module webpack should use to begin building out its internal dependency graph. After entering the entry point, webpack will figure out which other modules and libraries that entry point depends on (directly and indirectly).</p>
+<p>Basically, the <code>entry</code> is the root of the dependency graph.</p>
+<p>The following code snippet shows how <code>entry</code> field is specified in the <code>webpack.config.js</code></p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="va">module</span>.<span class="at">exports</span> <span class="op">=</span> <span class="op">{</span>
+  <span class="dt">entry</span><span class="op">:</span> <span class="st">'./path/to/my/entry/file.js'</span>
+<span class="op">};</span></code></pre></div></li>
+</ul>
+<p></br></p>
+<ul>
+<li><p><a href="https://webpack.js.org/concepts/#output">Output</a></p>
+<p>The output property tells webpack where to emit the bundles it creates and how to name these files. You can configure this part of the process by specifying an output field in your configuration:</p>
+<p>The following code snippet shows how <code>output</code> field is configured in the <code>webpack.config.js</code></p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">/* node.js imports */</span>
+<span class="kw">const</span> path <span class="op">=</span> <span class="at">require</span>(<span class="st">'path'</span>)<span class="op">;</span>
+<span class="co">/* node.js imports */</span>
+
+<span class="va">module</span>.<span class="at">exports</span> <span class="op">=</span> <span class="op">{</span>
+  <span class="dt">entry</span><span class="op">:</span> <span class="st">'./path/to/my/entry/file.js'</span><span class="op">,</span>
+  <span class="dt">output</span><span class="op">:</span> <span class="op">{</span>
+    <span class="dt">path</span><span class="op">:</span> <span class="va">path</span>.<span class="at">resolve</span>(__dirname<span class="op">,</span> <span class="st">'dist'</span>)<span class="op">,</span>            <span class="co">// path to the output directory, __dirname is the Node.js</span>
+                                                      <span class="co">// global variable denoting the current directory of the file.</span>
+    <span class="dt">filename</span><span class="op">:</span> <span class="st">'my-first-webpack.bundle.js'</span>            <span class="co">// the name of the bundle</span>
+  <span class="op">}</span>
+<span class="op">};</span></code></pre></div></li>
+</ul>
+<p></br></p>
+<ul>
+<li><p><a href="https://webpack.js.org/concepts/#loaders">Loaders</a></p>
+<p>Loaders enable webpack to process more than just JavaScript files (webpack itself only understands JavaScript). They give you the ability to leverage webpack’s bundling capabilities for all kinds of files by converting them to valid <code>modules</code> that webpack can process.</p>
+<p>Essentially, webpack loaders transform all types of files into modules that can be included in your application’s dependency graph.</p>
+<p>At a high level, loaders have two purposes in your webpack config. They work to:</p>
+<ul>
+<li><p>Identify which file or files should be transformed by a certain loader (with the test property).</p></li>
+<li><p>Transform those files so that they can be added to your dependency graph (and eventually your bundle). (use property)</p></li>
+</ul>
+<p>The following code snippet shows the <code>loader</code> configuration in <code>webpack.config.js</code>:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">const</span> path <span class="op">=</span> <span class="at">require</span>(<span class="st">'path'</span>)<span class="op">;</span>
+
+<span class="kw">const</span> config <span class="op">=</span> <span class="op">{</span>
+  <span class="dt">entry</span><span class="op">:</span> <span class="st">'./path/to/my/entry/file.js'</span><span class="op">,</span>
+  <span class="dt">output</span><span class="op">:</span> <span class="op">{</span>
+    <span class="dt">path</span><span class="op">:</span> <span class="va">path</span>.<span class="at">resolve</span>(__dirname<span class="op">,</span> <span class="st">'dist'</span>)<span class="op">,</span>
+    <span class="dt">filename</span><span class="op">:</span> <span class="st">'my-first-webpack.bundle.js'</span>
+  <span class="op">},</span>
+  <span class="dt">module</span><span class="op">:</span> <span class="op">{</span>                                       
+    <span class="dt">rules</span><span class="op">:</span> [
+      <span class="op">{</span>                                           <span class="co">// a loader</span>
+        <span class="dt">test</span><span class="op">:</span> <span class="ss">/</span><span class="sc">\.</span><span class="ss">txt</span><span class="sc">$</span><span class="ss">/</span><span class="op">,</span>                           <span class="co">// the loader's `test` property</span>
+        <span class="dt">use</span><span class="op">:</span> <span class="st">'raw-loader'</span>                         <span class="co">// the loader's `use` property</span>
+      <span class="op">}</span>
+    ]
+  <span class="op">}</span>
+<span class="op">};</span>
+
+<span class="va">module</span>.<span class="at">exports</span> <span class="op">=</span> config<span class="op">;</span></code></pre></div></li>
+</ul>
+<p></br></p>
+<ul>
+<li><p><a href="https://webpack.js.org/concepts/#plugins">Plugins</a></p>
+<p>While loaders are used to transform certain types of modules, plugins can be leveraged to perform a wider range of tasks. Plugins range from bundle optimization and minification all the way to defining environment-like variables. The plugin interface is extremely powerful and can be used to tackle a wide variety of tasks.</p>
+<p>In order to use a plugin, you need to <code>require()</code> it and add it to the <code>plugins</code> array. Most plugins are customizable through options. Since you can use a plugin multiple times in a config for different purposes, you need to create an instance of it by calling it with the <code>new</code> operator.</p>
+<p>Plugins are installed via <code>npm</code> or <code>yarn</code></p>
+<p>For eg:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">/* node.js imports */</span>
+<span class="kw">const</span> HtmlWebpackPlugin <span class="op">=</span> <span class="at">require</span>(<span class="st">'html-webpack-plugin'</span>)<span class="op">;</span>   <span class="co">// installed via npm</span>
+<span class="kw">const</span> webpack <span class="op">=</span> <span class="at">require</span>(<span class="st">'webpack'</span>)<span class="op">;</span>                         <span class="co">// to access built-in plugins</span>
+<span class="kw">const</span> path <span class="op">=</span> <span class="at">require</span>(<span class="st">'path'</span>)<span class="op">;</span>
+<span class="co">/* node.js imports */</span>
+
+<span class="kw">const</span> config <span class="op">=</span> <span class="op">{</span>
+  <span class="dt">entry</span><span class="op">:</span> <span class="st">'./path/to/my/entry/file.js'</span><span class="op">,</span>
+  <span class="dt">output</span><span class="op">:</span> <span class="op">{</span>
+    <span class="dt">path</span><span class="op">:</span> <span class="va">path</span>.<span class="at">resolve</span>(__dirname<span class="op">,</span> <span class="st">'dist'</span>)<span class="op">,</span>
+    <span class="dt">filename</span><span class="op">:</span> <span class="st">'my-first-webpack.bundle.js'</span>
+  <span class="op">},</span>
+  <span class="dt">module</span><span class="op">:</span> <span class="op">{</span>
+    <span class="dt">rules</span><span class="op">:</span> [
+      <span class="op">{</span> <span class="dt">test</span><span class="op">:</span> <span class="ss">/</span><span class="sc">\.</span><span class="ss">txt</span><span class="sc">$</span><span class="ss">/</span><span class="op">,</span> <span class="dt">use</span><span class="op">:</span> <span class="st">'raw-loader'</span> <span class="op">}</span>
+    ]
+  <span class="op">},</span>
+  <span class="dt">plugins</span><span class="op">:</span> [
+    <span class="kw">new</span> <span class="va">webpack</span>.<span class="va">optimize</span>.<span class="at">UglifyJsPlugin</span>()<span class="op">,</span>
+    <span class="kw">new</span> <span class="at">HtmlWebpackPlugin</span>(<span class="op">{</span><span class="dt">template</span><span class="op">:</span> <span class="st">'./src/index.html'</span><span class="op">}</span>)
+  ]
+<span class="op">};</span>
+
+<span class="va">module</span>.<span class="at">exports</span> <span class="op">=</span> config<span class="op">;</span></code></pre></div>
+<p>I used the <code>html-webpack-plugin</code> plugin for my site and installed it with <em>yarn</em>.</p></li>
+</ul>
+<p></br> </br></p>
+<h3 id="diving-into-react-balls-deep">Diving into React (balls deep):</h3>
+<ul>
+<li><p>Installed <code>react</code> and <code>react-dom</code>:</p>
+<p>Added <code>react</code> and <code>react-dom</code> as dependecies. These constitute the <em>React.js</em> library.</p>
+<pre class="bash-shell"><code>yarn add react react-dom</code></pre>
+<p>This installed <code>react</code> and <code>react-dom</code> that were added as dependencies.</p></li>
+<li><p>Added <em>React.js</em> code to my <code>app.js</code>:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="im">import</span> React<span class="op">,</span> <span class="op">{</span> Component <span class="op">}</span> <span class="im">from</span> <span class="st">&quot;react&quot;</span><span class="op">;</span>
+<span class="im">import</span> ReactDOM <span class="im">from</span> <span class="st">&quot;react-dom&quot;</span><span class="op">;</span>
+
+<span class="kw">class</span> Hello <span class="kw">extends</span> Component <span class="op">{</span>
+  <span class="at">render</span>() <span class="op">{</span>
+    <span class="cf">return</span> (
+      <span class="op">&lt;</span>p<span class="op">&gt;</span> Hey <span class="op">{</span><span class="kw">this</span>.<span class="va">props</span>.<span class="at">name</span><span class="op">}</span> <span class="op">!&lt;</span><span class="ss">/p&gt;</span>
+<span class="ss">    </span><span class="sc">)</span><span class="ss">;</span>
+<span class="ss">  }</span>
+<span class="ss">}</span>
+
+<span class="ss">ReactDOM.render</span><span class="sc">(</span><span class="ss">&lt;Hello name=&quot;Sid&quot;/</span><span class="op">&gt;,</span> <span class="va">document</span>.<span class="at">getElementById</span>(<span class="st">&quot;root&quot;</span>))<span class="op">;</span></code></pre></div></li>
+<li><p>Started app using the following command:</p>
+<pre class="bash-shell"><code>yarn start --watch</code></pre>
+<p>Nothing happened, xD</p>
+<p><code>There was issue with Babel, the guide I was following was too old.</code></p>
+<p>Uninstalled <code>babel-preset-es2017</code> and <code>babel-preset-es2015</code>.</p>
+<p>Moved over to <code>babel-preset-env</code> as recommended by <strong>babel.io</strong>.</p>
+<p>My new <code>package.json</code> looked like: (removed unnecessary dev dependencies in the production code)</p>
+<pre><code>{
+  &quot;name&quot;: &quot;static-site-gen&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Creating React.js card for displaying my GitHub projects&quot;,
+  &quot;main&quot;: &quot;main.js&quot;,
+  &quot;author&quot;: &quot;Sidharth Mishra&quot;,
+  &quot;license&quot;: &quot;MIT&quot;,
+  &quot;private&quot;: false,
+  &quot;dependencies&quot;: {
+    &quot;html-webpack-plugin&quot;: &quot;^2.30.1&quot;,
+    &quot;path&quot;: &quot;^0.12.7&quot;,
+    &quot;react&quot;: &quot;^16.0.0&quot;,
+    &quot;react-dom&quot;: &quot;^16.0.0&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;webpack&quot;: &quot;^3.8.1&quot;,
+    &quot;webpack-dev-server&quot;: &quot;^2.9.3&quot;,
+    &quot;babel-core&quot;: &quot;^6.26.0&quot;,
+    &quot;babel-loader&quot;: &quot;^7.1.2&quot;,
+    &quot;babel-preset-react&quot;: &quot;^6.24.1&quot;,
+    &quot;babel-preset-env&quot;: &quot;^1.6.1&quot;
+  },
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;webpack-dev-server&quot;
+  }
+}</code></pre>
+<p>Problem seems that <code>.babelrc</code> was not needed. Updated the project by deleting the <code>.babelrc</code></p>
+<p>Instead updated the <code>webpack.config.js</code> to look like:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">  <span class="co">/* node.js imports */</span>
+  <span class="kw">const</span> path <span class="op">=</span> <span class="at">require</span>(<span class="st">'path'</span>)<span class="op">;</span>
+  <span class="kw">const</span> HtmlWebpackPlugin <span class="op">=</span> <span class="at">require</span>(<span class="st">'html-webpack-plugin'</span>)<span class="op">;</span>   <span class="co">// webpack plugin import</span>
+  <span class="co">/* node.js imports */</span>
+
+  <span class="kw">const</span> HtmlWebpackPluginConfig <span class="op">=</span> <span class="kw">new</span> <span class="at">HtmlWebpackPlugin</span>(
+    <span class="op">{</span>
+      <span class="dt">template</span><span class="op">:</span> __dirname <span class="op">+</span> <span class="st">'/src/app.html'</span><span class="op">,</span>
+      <span class="dt">filename</span><span class="op">:</span> <span class="st">'app.html'</span><span class="op">,</span>
+      <span class="dt">inject</span><span class="op">:</span> <span class="st">'head'</span>
+    <span class="op">}</span>
+  )<span class="op">;</span>
+
+  <span class="va">module</span>.<span class="at">exports</span> <span class="op">=</span> <span class="op">{</span>
+    <span class="dt">entry</span><span class="op">:</span> __dirname <span class="op">+</span> <span class="st">'/src/app.jsx'</span><span class="op">,</span>
+    <span class="dt">output</span><span class="op">:</span> <span class="op">{</span>
+      <span class="dt">path</span><span class="op">:</span> __dirname <span class="op">+</span> <span class="st">'/bin'</span><span class="op">,</span>
+      <span class="dt">filename</span><span class="op">:</span> <span class="st">'app.bundle.js'</span>
+    <span class="op">},</span>
+    <span class="dt">module</span><span class="op">:</span> <span class="op">{</span>
+      <span class="dt">loaders</span><span class="op">:</span> [
+        <span class="op">{</span>
+          <span class="dt">test</span><span class="op">:</span> <span class="ss">/</span><span class="sc">\.</span><span class="ss">js</span><span class="sc">$</span><span class="ss">/</span><span class="op">,</span>
+          <span class="dt">loader</span><span class="op">:</span> <span class="st">'babel-loader'</span><span class="op">,</span>
+          <span class="dt">exclude</span><span class="op">:</span> <span class="ss">/node_modules/i</span><span class="op">,</span>
+          <span class="dt">query</span><span class="op">:</span> <span class="op">{</span>
+            <span class="dt">presets</span><span class="op">:</span> [<span class="st">'es2015'</span><span class="op">,</span> <span class="st">'react'</span>]              <span class="co">// babel recommends to use presets like this now</span>
+          <span class="op">}</span>
+        <span class="op">},</span>
+        <span class="op">{</span>
+          <span class="dt">test</span><span class="op">:</span> <span class="ss">/</span><span class="sc">\.</span><span class="ss">jsx</span><span class="sc">$</span><span class="ss">/</span><span class="op">,</span>
+          <span class="dt">loader</span><span class="op">:</span> <span class="st">'babel-loader'</span><span class="op">,</span>
+          <span class="dt">exclude</span><span class="op">:</span> <span class="ss">/node_modules/i</span><span class="op">,</span>
+          <span class="dt">query</span><span class="op">:</span> <span class="op">{</span>
+            <span class="dt">presets</span><span class="op">:</span> [<span class="st">'es2015'</span><span class="op">,</span> <span class="st">'react'</span>]            <span class="co">// babel recommends to use presets like this now</span>
+          <span class="op">}</span>
+        <span class="op">}</span>
+      ]
+    <span class="op">},</span>
+    <span class="dt">plugins</span><span class="op">:</span> [HtmlWebpackPluginConfig]
+  <span class="op">};</span></code></pre></div></li>
+</ul>
+<p></br> </br></p>
+<h3 id="feels-bad-man">Feels bad man:</h3>
+<p>It still failed. To solve the problem, I purged the <code>node_modules</code> and moved content in the <code>package.json</code> around to streamline my dependencies.</p>
+<p>The way babel worked was also giving me a lot of pain. (This is expected when there are so many items to configure)</p>
+<p>Next, updated the <code>.babelrc</code> file to</p>
+<div class="sourceCode"><pre class="sourceCode json"><code class="sourceCode json"><span class="fu">{</span>
+  <span class="dt">&quot;plugins&quot;</span><span class="fu">:</span> <span class="ot">[</span>
+    <span class="st">&quot;transform-react-jsx&quot;</span>
+  <span class="ot">]</span><span class="fu">,</span>
+  <span class="dt">&quot;presets&quot;</span><span class="fu">:</span> <span class="ot">[</span>
+    <span class="st">&quot;react&quot;</span><span class="ot">,</span>
+    <span class="st">&quot;env&quot;</span>
+  <span class="ot">]</span>
+<span class="fu">}</span></code></pre></div>
+<p>and then, updated the <code>webpack.config.js</code> file to:</p>
+<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="co">/* node.js imports */</span>
+<span class="kw">const</span> path <span class="op">=</span> <span class="at">require</span>(<span class="st">'path'</span>)<span class="op">;</span>
+<span class="kw">const</span> HtmlWebpackPlugin <span class="op">=</span> <span class="at">require</span>(<span class="st">'html-webpack-plugin'</span>)<span class="op">;</span>   <span class="co">// webpack plugin import</span>
+<span class="co">/* node.js imports */</span>
+
+<span class="kw">const</span> HtmlWebpackPluginConfig <span class="op">=</span> <span class="kw">new</span> <span class="at">HtmlWebpackPlugin</span>(
+  <span class="op">{</span>
+    <span class="dt">template</span><span class="op">:</span> __dirname <span class="op">+</span> <span class="st">'/src/app.html'</span><span class="op">,</span>
+    <span class="dt">filename</span><span class="op">:</span> <span class="st">'app.html'</span><span class="op">,</span>
+    <span class="dt">inject</span><span class="op">:</span> <span class="st">'head'</span>
+  <span class="op">}</span>
+)<span class="op">;</span>
+
+<span class="va">module</span>.<span class="at">exports</span> <span class="op">=</span> <span class="op">{</span>
+  <span class="dt">entry</span><span class="op">:</span> __dirname <span class="op">+</span> <span class="st">'/src/app.js'</span><span class="op">,</span>
+  <span class="dt">output</span><span class="op">:</span> <span class="op">{</span>
+    <span class="dt">path</span><span class="op">:</span> __dirname <span class="op">+</span> <span class="st">'/bin'</span><span class="op">,</span>
+    <span class="dt">filename</span><span class="op">:</span> <span class="st">'app.bundle.js'</span>
+  <span class="op">},</span>
+  <span class="dt">module</span><span class="op">:</span> <span class="op">{</span>
+    <span class="dt">loaders</span><span class="op">:</span> [
+      <span class="op">{</span>
+        <span class="dt">test</span><span class="op">:</span> <span class="ss">/</span><span class="sc">\.</span><span class="ss">js</span><span class="sc">$</span><span class="ss">/</span><span class="op">,</span>
+        <span class="dt">loader</span><span class="op">:</span> <span class="st">'babel-loader'</span><span class="op">,</span>
+        <span class="dt">exclude</span><span class="op">:</span> <span class="ss">/node_modules/i</span><span class="op">,</span>
+      <span class="op">},</span>
+      <span class="op">{</span>
+        <span class="dt">test</span><span class="op">:</span> <span class="ss">/</span><span class="sc">\.</span><span class="ss">jsx</span><span class="sc">$</span><span class="ss">/</span><span class="op">,</span>
+        <span class="dt">loader</span><span class="op">:</span> <span class="st">'babel-loader'</span><span class="op">,</span>
+        <span class="dt">exclude</span><span class="op">:</span> <span class="ss">/node_modules/i</span><span class="op">,</span>
+      <span class="op">}</span>
+    ]
+  <span class="op">},</span>
+  <span class="dt">plugins</span><span class="op">:</span> [HtmlWebpackPluginConfig]
+<span class="op">};</span></code></pre></div>
+<p><code>And, the code compiled, but still I didn't see react stuff show up :(</code> (feels bad man T_T)</p>
+<p>After going through the src code, I patched up <code>package.json</code>, <code>webpack.config.js</code> and <code>.babelrc</code> to the following and it worked!</p>
+<hr />
+<h4 id="webpack.config.js">webpack.config.js</h4>
+<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="co">/* node.js imports */</span>
+<span class="kw">const</span> path <span class="op">=</span> <span class="at">require</span>(<span class="st">'path'</span>)<span class="op">;</span>
+<span class="kw">const</span> HtmlWebpackPlugin <span class="op">=</span> <span class="at">require</span>(<span class="st">'html-webpack-plugin'</span>)<span class="op">;</span>   <span class="co">// webpack plugin import</span>
+<span class="co">/* node.js imports */</span>
+
+<span class="kw">const</span> HtmlWebpackPluginConfig <span class="op">=</span> <span class="kw">new</span> <span class="at">HtmlWebpackPlugin</span>(
+  <span class="op">{</span>
+    <span class="dt">template</span><span class="op">:</span> __dirname <span class="op">+</span> <span class="st">'/src/app.html'</span><span class="op">,</span>
+    <span class="dt">filename</span><span class="op">:</span> <span class="st">'app.html'</span><span class="op">,</span>
+    <span class="dt">inject</span><span class="op">:</span> <span class="st">'body'</span>
+  <span class="op">}</span>
+)<span class="op">;</span>
+
+<span class="va">module</span>.<span class="at">exports</span> <span class="op">=</span> <span class="op">{</span>
+  <span class="dt">entry</span><span class="op">:</span> __dirname <span class="op">+</span> <span class="st">'/src/app.js'</span><span class="op">,</span>
+  <span class="dt">output</span><span class="op">:</span> <span class="op">{</span>
+    <span class="dt">path</span><span class="op">:</span> __dirname <span class="op">+</span> <span class="st">'/bin'</span><span class="op">,</span>
+    <span class="dt">filename</span><span class="op">:</span> <span class="st">'app.bundle.js'</span>
+  <span class="op">},</span>
+  <span class="dt">module</span><span class="op">:</span> <span class="op">{</span>
+    <span class="dt">loaders</span><span class="op">:</span> [
+      <span class="op">{</span>
+        <span class="dt">test</span><span class="op">:</span> <span class="ss">/</span><span class="sc">\.</span><span class="ss">js</span><span class="sc">$</span><span class="ss">/</span><span class="op">,</span>
+        <span class="dt">loader</span><span class="op">:</span> <span class="st">'babel-loader'</span><span class="op">,</span>
+        <span class="dt">exclude</span><span class="op">:</span> <span class="ss">/node_modules/</span><span class="op">,</span>
+        <span class="dt">query</span><span class="op">:</span> <span class="op">{</span>
+          <span class="dt">presets</span><span class="op">:</span> [<span class="st">&quot;env&quot;</span><span class="op">,</span> <span class="st">'react'</span>]            <span class="co">// babel recommends to use presets like this now</span>
+        <span class="op">}</span>
+      <span class="op">},</span>
+      <span class="op">{</span>
+        <span class="dt">test</span><span class="op">:</span> <span class="ss">/</span><span class="sc">\.</span><span class="ss">jsx</span><span class="sc">$</span><span class="ss">/</span><span class="op">,</span>
+        <span class="dt">loader</span><span class="op">:</span> <span class="st">'babel-loader'</span><span class="op">,</span>
+        <span class="dt">exclude</span><span class="op">:</span> <span class="ss">/node_modules/</span><span class="op">,</span>
+        <span class="dt">query</span><span class="op">:</span> <span class="op">{</span>
+          <span class="dt">presets</span><span class="op">:</span> [<span class="st">&quot;env&quot;</span><span class="op">,</span> <span class="st">'react'</span>]            <span class="co">// babel recommends to use presets like this now</span>
+        <span class="op">}</span>
+      <span class="op">}</span>
+    ]
+  <span class="op">},</span>
+  <span class="dt">plugins</span><span class="op">:</span> [HtmlWebpackPluginConfig]
+<span class="op">};</span></code></pre></div>
+<hr />
+<h4 id="package.json">package.json</h4>
+<div class="sourceCode"><pre class="sourceCode json"><code class="sourceCode json"><span class="fu">{</span>
+  <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;static-site-gen&quot;</span><span class="fu">,</span>
+  <span class="dt">&quot;version&quot;</span><span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu">,</span>
+  <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;Creating React.js card for displaying my GitHub projects&quot;</span><span class="fu">,</span>
+  <span class="dt">&quot;main&quot;</span><span class="fu">:</span> <span class="st">&quot;main.js&quot;</span><span class="fu">,</span>
+  <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;Sidharth Mishra&quot;</span><span class="fu">,</span>
+  <span class="dt">&quot;license&quot;</span><span class="fu">:</span> <span class="st">&quot;MIT&quot;</span><span class="fu">,</span>
+  <span class="dt">&quot;private&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span>
+  <span class="dt">&quot;dependencies&quot;</span><span class="fu">:</span> <span class="fu">{</span>
+    <span class="dt">&quot;react&quot;</span><span class="fu">:</span> <span class="st">&quot;^16.0.0&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;react-dom&quot;</span><span class="fu">:</span> <span class="st">&quot;^16.0.0&quot;</span>
+  <span class="fu">},</span>
+  <span class="dt">&quot;devDependencies&quot;</span><span class="fu">:</span> <span class="fu">{</span>
+    <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;^0.12.7&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;html-webpack-plugin&quot;</span><span class="fu">:</span> <span class="st">&quot;^2.30.1&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;webpack&quot;</span><span class="fu">:</span> <span class="st">&quot;^3.8.1&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;webpack-dev-server&quot;</span><span class="fu">:</span> <span class="st">&quot;^2.9.3&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;babel-core&quot;</span><span class="fu">:</span> <span class="st">&quot;^6.26.0&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;babel-loader&quot;</span><span class="fu">:</span> <span class="st">&quot;^7.1.2&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;babel-preset-react&quot;</span><span class="fu">:</span> <span class="st">&quot;^6.24.1&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;babel-preset-env&quot;</span><span class="fu">:</span> <span class="st">&quot;^1.6.1&quot;</span>
+  <span class="fu">},</span>
+  <span class="dt">&quot;scripts&quot;</span><span class="fu">:</span> <span class="fu">{</span>
+    <span class="dt">&quot;start&quot;</span><span class="fu">:</span> <span class="st">&quot;webpack-dev-server&quot;</span>
+  <span class="fu">}</span>
+<span class="fu">}</span></code></pre></div>
+<hr />
+<h4 id="babelrc">.babelrc</h4>
+<div class="sourceCode"><pre class="sourceCode json"><code class="sourceCode json"><span class="fu">{</span>
+  <span class="dt">&quot;plugins&quot;</span><span class="fu">:</span> <span class="ot">[</span>
+    <span class="st">&quot;transform-react-jsx&quot;</span>
+  <span class="ot">]</span><span class="fu">,</span>
+  <span class="dt">&quot;presets&quot;</span><span class="fu">:</span> <span class="ot">[</span>
+    <span class="st">&quot;react&quot;</span><span class="ot">,</span>
+    <span class="st">&quot;env&quot;</span>
+  <span class="ot">]</span>
+<span class="fu">}</span></code></pre></div>
+<hr />
+<p></br></p>
+<h3 id="conclusion-of-the-second-dive">Conclusion of the second dive:</h3>
+<p>I was able to run <em>React</em> and this ends my first test dive into front-end sea.</p>
+<p>More in <a href="2017-11-02-front-end-sea-3.html">Part#3</a></p>
+<p></br></p>
+<h3 id="references">References:</h3>
+<p>[1] Webpack docs, https://webpack.js.org/concepts/</p>
+<p>[2] Twilio blog, https://www.twilio.com/blog/2015/08/setting-up-react-for-es6-with-webpack-and-babel-2.html</p>
+<p>[3] Reactjs docs, https://reactjs.org/docs/installation.html#adding-react-to-an-existing-application</p>
+<p>[4] babel docs, https://babeljs.io/docs/setup/#installation</p>
+<p>[5] My codepen, https://codepen.io/sidmishraw/pen/XzmBQX?editors=0010</p>
+    </section>
+</article>
+
+    </main>
+
+    <footer>
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </footer>
+</body>
+
+</html>
