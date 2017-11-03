@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="../css/github-like.css" />
     <link rel="stylesheet" href="../css/loader.css" />
     <script src="../js/jquery-3.2.1.min.js"></script>
-    <script src="../js/github.js"></script>
+    <script src="../js/reactv16-prod-UMD.min.js"></script>
+    <script src="../js/react-domv16.0-prod-UMD.min.js"></script>
 </head>
 
 <body>
@@ -37,7 +38,210 @@
         
     </section>
     <section>
-        <p>Coming soon…</p>
+        <p>I actually had fun working with <em>React</em>! But, I was frustrated with <em>Webpack</em>. After much deliberation, I decided to use <em>Webpack</em> to only bundle my JS code as libraries.</p>
+<p>The repository for the library I built is found <a href="https://github.com/sidmishraw/gitHubLike">here</a>.</p>
+<p>The JS library I built using <em>React</em> and <em>Webpack</em> allows the user to create cards of their <a href="https://github.com">GitHub</a> repositories. The usage is as simple as:</p>
+<hr />
+<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript">  <span class="va">githubLike</span>.<span class="va">GitHubCards</span>.<span class="at">render</span>(<span class="st">&quot;sidmishraw&quot;</span><span class="op">,</span> <span class="st">&quot;projectsList&quot;</span><span class="op">,</span> () <span class="op">=&gt;</span> <span class="op">{</span>
+    <span class="co">/// WIP, will make a language carousel thingy</span>
+    <span class="at">jQuery</span>(<span class="st">&quot;#languagesIDabbleIn&quot;</span>).<span class="at">html</span>(
+      <span class="vs">`&lt;ol class=&quot;pinned-repos-list mb-4&quot;&gt;`</span> <span class="op">+</span>
+      <span class="va">githubLike</span>.<span class="va">GitHubCards</span>.<span class="at">getMyLanguages</span>() <span class="op">+</span>
+      <span class="vs">`&lt;/ol&gt;`</span>
+    )<span class="op">;</span>
+    <span class="co">/// WIP, will make a language carousel thingy</span>
+    <span class="at">stopLoader</span>()<span class="op">;</span>
+  <span class="op">}</span>)<span class="op">;</span></code></pre></div>
+<hr />
+<p>My library was exported with the name <code>githubLike</code> by <em>Webpack</em>. <code>githubLike</code> exposes 2 objects named <code>GitHubCards</code> and <code>GitHubLangColors</code>. <code>GitHubCards</code> has a <code>render</code> function that can be used to render the GitHub project cards which I made with <em>React</em>. I also exposed a function of the <code>GitHubCards</code> called <code>getMyLanguages</code>. <code>getMyLanguages</code> fetches the user’s programming languages from their GitHub repositories.</p>
+<p>The signature of <code>render</code> is <code>render(userName, elementId, callback)</code>. <code>userName</code> is the name of the user whose GitHub repositories are to be fetched. <code>elementId</code> is the ID of the DOM element(div) within which <em>React</em> will render the components. <code>callback</code> is the callback function that gets executed after the component has been rendered to the screen.</p>
+<hr />
+<p>To achieve this, I had to modify my <code>webpack.config.js</code> to look like the following:</p>
+<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="co">/* node.js imports */</span>
+<span class="kw">const</span> path <span class="op">=</span> <span class="at">require</span>(<span class="st">'path'</span>)<span class="op">;</span>
+<span class="kw">const</span> HtmlWebpackPlugin <span class="op">=</span> <span class="at">require</span>(<span class="st">'html-webpack-plugin'</span>)<span class="op">;</span>                 <span class="co">// webpack plugin import</span>
+<span class="kw">const</span> ExtractTextWebpackPlugin <span class="op">=</span> <span class="at">require</span>(<span class="st">&quot;extract-text-webpack-plugin&quot;</span>)<span class="op">;</span>  <span class="co">// Extracts text and makes into a new file</span>
+<span class="co">/* node.js imports */</span>
+
+<span class="kw">const</span> HtmlWebpackPluginConfig <span class="op">=</span> <span class="kw">new</span> <span class="at">HtmlWebpackPlugin</span>(
+  <span class="op">{</span>
+    <span class="dt">template</span><span class="op">:</span> __dirname <span class="op">+</span> <span class="st">'/src/app.html'</span><span class="op">,</span>
+    <span class="dt">filename</span><span class="op">:</span> <span class="st">'./bin/app.html'</span><span class="op">,</span>
+    <span class="dt">inject</span><span class="op">:</span> <span class="st">'body'</span>
+  <span class="op">}</span>
+)<span class="op">;</span>
+
+<span class="va">module</span>.<span class="at">exports</span> <span class="op">=</span> <span class="op">{</span>
+  <span class="dt">entry</span><span class="op">:</span> <span class="op">{</span>
+    <span class="co">// &quot;github-components&quot;: path.join(__dirname, &quot;/src/github-components.js&quot;),</span>
+    <span class="co">// &quot;github-colors&quot;: path.join(__dirname, &quot;/src/github-colors.js&quot;),</span>
+    <span class="st">&quot;app&quot;</span><span class="op">:</span> <span class="va">path</span>.<span class="at">join</span>(__dirname<span class="op">,</span> <span class="st">&quot;/src/app.js&quot;</span>)
+  <span class="op">},</span>
+  <span class="dt">output</span><span class="op">:</span> <span class="op">{</span>
+    <span class="dt">filename</span><span class="op">:</span> <span class="st">&quot;./bin/github-like.bundle.js&quot;</span><span class="op">,</span>
+    <span class="dt">libraryTarget</span><span class="op">:</span> <span class="st">&quot;var&quot;</span><span class="op">,</span>            <span class="co">//  When your library is loaded, the return value of your entry point will be assigned to a variable</span>
+    <span class="dt">library</span><span class="op">:</span> <span class="st">&quot;githubLike&quot;</span>            <span class="co">// name of the variable the library is exposed as</span>
+    <span class="co">// In this case it is exposed as &quot;githubLike&quot;</span>
+    <span class="co">// So, the consumer can just include the &quot;github-like.bundle.js&quot; in script tag</span>
+    <span class="co">// and then call the function like </span>
+    <span class="co">// githubLike.GitHubCards.render(&quot;sidmishraw&quot;, &quot;root&quot;, () =&gt; console.log(&quot;Done!&quot;))</span>
+    <span class="co">// to render the cards.</span>
+  <span class="op">},</span>
+  <span class="dt">externals</span><span class="op">:</span> [            <span class="co">// externalizes the dependencies, forcing the user to have these in their projects</span>
+    <span class="st">&quot;React&quot;</span><span class="op">,</span>           <span class="co">// it is `React` that we are using from react.js, so the dependency is on `React`</span>
+    <span class="st">&quot;Component&quot;</span><span class="op">,</span>       <span class="co">// and so on. So the consumer needs to have these variables in their namespace or</span>
+    <span class="st">&quot;ReactDOM&quot;</span><span class="op">,</span>        <span class="co">// JS file to use this library. In my case, not externalizing in order </span>
+    <span class="co">//to create a fat jar like bundle</span>
+    <span class="st">&quot;jQuery&quot;</span>
+  ]<span class="op">,</span>
+  <span class="dt">module</span><span class="op">:</span> <span class="op">{</span>
+    <span class="dt">loaders</span><span class="op">:</span> [
+      <span class="co">// css loaders</span>
+      <span class="op">{</span>
+        <span class="dt">test</span><span class="op">:</span> <span class="ss">/</span><span class="sc">\.</span><span class="ss">css</span><span class="sc">$</span><span class="ss">/</span><span class="op">,</span>
+        <span class="dt">loaders</span><span class="op">:</span> <span class="va">ExtractTextWebpackPlugin</span>.<span class="at">extract</span>(<span class="op">{</span>
+          <span class="dt">fallback</span><span class="op">:</span> <span class="st">&quot;style-loader&quot;</span><span class="op">,</span>
+          <span class="dt">use</span><span class="op">:</span> <span class="st">&quot;css-loader&quot;</span>
+        <span class="op">}</span>)
+      <span class="op">},</span>
+      <span class="op">{</span>
+        <span class="dt">test</span><span class="op">:</span> <span class="ss">/</span><span class="sc">\.</span><span class="ss">js</span><span class="sc">$</span><span class="ss">/</span><span class="op">,</span>
+        <span class="dt">loader</span><span class="op">:</span> <span class="st">'babel-loader'</span><span class="op">,</span>
+        <span class="dt">exclude</span><span class="op">:</span> <span class="ss">/node_modules/</span><span class="op">,</span>
+        <span class="dt">query</span><span class="op">:</span> <span class="op">{</span>
+          <span class="dt">presets</span><span class="op">:</span> [<span class="st">&quot;env&quot;</span><span class="op">,</span> <span class="st">'react'</span>]            <span class="co">// babel recommends to use presets like this now</span>
+        <span class="op">}</span>
+      <span class="op">},</span>
+      <span class="op">{</span>
+        <span class="dt">test</span><span class="op">:</span> <span class="ss">/</span><span class="sc">\.</span><span class="ss">jsx</span><span class="sc">$</span><span class="ss">/</span><span class="op">,</span>
+        <span class="dt">loader</span><span class="op">:</span> <span class="st">'babel-loader'</span><span class="op">,</span>
+        <span class="dt">exclude</span><span class="op">:</span> <span class="ss">/node_modules/</span><span class="op">,</span>
+        <span class="dt">query</span><span class="op">:</span> <span class="op">{</span>
+          <span class="dt">presets</span><span class="op">:</span> [<span class="st">&quot;env&quot;</span><span class="op">,</span> <span class="st">'react'</span>]            <span class="co">// babel recommends to use presets like this now</span>
+        <span class="op">}</span>
+      <span class="op">}</span>
+    ]
+  <span class="op">},</span>
+  <span class="dt">plugins</span><span class="op">:</span> [
+    <span class="kw">new</span> <span class="at">ExtractTextWebpackPlugin</span>(
+      <span class="op">{</span>
+        <span class="dt">filename</span><span class="op">:</span> <span class="st">&quot;./bin/styles.css&quot;</span><span class="op">,</span>
+        <span class="dt">allChunks</span><span class="op">:</span> <span class="kw">true</span>
+      <span class="op">}</span>
+    )<span class="op">,</span>
+    HtmlWebpackPluginConfig
+  ]
+<span class="op">};</span></code></pre></div>
+<hr />
+<p>The <code>module.exports</code> in the <code>webpack.config.js</code> now has 1 entry point(was trying with multiple but realized that in the end I need one big fat bundle xD). I made sure that my <code>app.js</code> acts as the exporter(because I was building a library).</p>
+<p>My <code>app.js</code> looked like:</p>
+<hr />
+<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="im">import</span> <span class="op">{</span> GitHubCards <span class="op">}</span> <span class="im">from</span> <span class="st">&quot;./github-components.js&quot;</span><span class="op">;</span>
+<span class="im">import</span> <span class="op">{</span> GitHubLangColors <span class="op">}</span> <span class="im">from</span> <span class="st">&quot;./github-colors.js&quot;</span><span class="op">;</span>
+<span class="im">import</span> <span class="st">&quot;./app.css&quot;</span><span class="op">;</span>
+
+<span class="va">module</span>.<span class="va">exports</span>.<span class="at">GitHubCards</span> <span class="op">=</span> GitHubCards<span class="op">;</span>
+<span class="va">module</span>.<span class="va">exports</span>.<span class="at">GitHubLangColors</span> <span class="op">=</span> GitHubLangColors<span class="op">;</span></code></pre></div>
+<hr />
+<p>This reminded me of Python’s <code>__init__.py</code> and how its usage for resolving</p>
+<hr />
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> module_name <span class="im">import</span> <span class="op">*</span></code></pre></div>
+<hr />
+<p>styled imports.</p>
+<p>Since <em>Webpack</em> builds a dependency graph starting from the dependencies of the <code>entry</code>, once it gets my <code>app.js</code> it looked for <code>github-components.js</code>, <code>github-colors.js</code>, and <code>app.css</code>. My <code>github-components.js</code> depended on <code>jQuery</code>, <code>react</code>, and <code>react-dom</code> internally and so on.</p>
+<p>So, when <em>Webpack</em> built the bundle, it jammed everything into <code>github-like.bundle.js</code>(analogous to a fat jar xD)</p>
+<p>Since I wanted to export my <code>app.js</code> as a library, I used the <code>libraryTarget: &quot;var&quot;</code> and <code>library: &quot;githubLike&quot;</code> fields in the <code>output</code> field of the <em>Webpack</em> configuration in <code>webpack.config.js</code>.</p>
+<p>The <code>libraryTarget: &quot;var&quot;</code> and <code>library: &quot;githubLike&quot;</code> add a <code>var githubLike = (function(){...})..</code> to the <code>github-like.bundle.js</code> file so that it can be used as a library.</p>
+<p>A snippet of the code from <code>github-like.bundle.js</code> looks like:</p>
+<hr />
+<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="kw">var</span> githubLike <span class="op">=</span>
+<span class="co">/******/</span> (<span class="kw">function</span>(modules) <span class="op">{</span> <span class="co">// webpackBootstrap</span>
+<span class="co">/******/</span> 	<span class="co">// The module cache</span>
+<span class="co">/******/</span> 	<span class="kw">var</span> installedModules <span class="op">=</span> <span class="op">{};</span>
+<span class="co">/******/</span> ....</code></pre></div>
+<hr />
+<p>Now, the user of my library(the consumer) can access the <code>GitHubCards</code> and <code>GitHubLangColors</code> by adding the <code>github-like.bundle.js</code> via a <code>script</code> tag and calling them like <code>githubLike.GitHubCards</code> and <code>githubLike.GitHubLangColors</code> respectively. For example,</p>
+<p>by adding the following script tag to the html document’s <code>&lt;head&gt;</code></p>
+<hr />
+<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;/js/github-like.bundle.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span></code></pre></div>
+<hr />
+<p>and the following function call in one of the included JS files,</p>
+<hr />
+<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="va">githubLike</span>.<span class="va">GitHubCards</span>.<span class="at">render</span>(<span class="st">&quot;sidmishraw&quot;</span><span class="op">,</span> <span class="st">&quot;projectsList&quot;</span><span class="op">,</span> () <span class="op">=&gt;</span> <span class="op">{</span>
+  <span class="co">/// WIP, will make a language carousel thingy</span>
+  <span class="at">jQuery</span>(<span class="st">&quot;#languagesIDabbleIn&quot;</span>).<span class="at">html</span>(
+    <span class="vs">`&lt;ol class=&quot;pinned-repos-list mb-4&quot;&gt;`</span> <span class="op">+</span>
+    <span class="va">githubLike</span>.<span class="va">GitHubCards</span>.<span class="at">getMyLanguages</span>() <span class="op">+</span>
+    <span class="vs">`&lt;/ol&gt;`</span>
+  )<span class="op">;</span>
+  <span class="co">/// WIP, will make a language carousel thingy</span>
+  <span class="at">stopLoader</span>()<span class="op">;</span>
+<span class="op">}</span>)<span class="op">;</span></code></pre></div>
+<hr />
+<p>the consumer can use the <code>githubLike.GitHubCards</code> object to render GitHub repository/project cards.</p>
+<p></br></p>
+<blockquote>
+<p>Note: I externalized the <code>jQuery</code>, <code>react</code> and <code>react-dom</code> dependencies because I didn’t want to bundle them together. This is useful in cases where the consumer already has jQuery, react and react-dom scripts added to their projects. It also forces the consumer to use these in their project.</p>
+</blockquote>
+<p>The thing I noticed while mentioning the <code>externals</code> in the <code>webpack.config.js</code> was that, they are supposed to be actual objects and functions that were imported rather than the files. In my case, it has to be <code>React</code>, <code>Component</code>, <code>ReactDOM</code> and <code>jQuery</code> since I used these objects in my JS files.</p>
+<blockquote>
+<p>Note: When I tried to use <code>jQuery</code>, <code>react</code> and <code>react-dom</code> (file/module names), <em>Webpack</em> was not happy and the build failed.</p>
+</blockquote>
+<p>To bundle <em>CSS</em> files, I had to use the <code>extract-text-webpack-plugin</code>, <code>css-loader</code> and <code>style-loader</code>. The <code>extract-text-webpack-plugin</code> extracted the CSS files and ran them through the loaders and bundled them into a file called <code>styles.css</code>. This was only used for testing, in my final project build(this blog), I already had the CSS files included in the <code>default.html</code> template hence didn’t require it :)</p>
+<p>My <code>package.json</code> had also changed to accomodate my new requirements and it looked like this:</p>
+<hr />
+<div class="sourceCode"><pre class="sourceCode json"><code class="sourceCode json"><span class="fu">{</span>
+  <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;static-site-gen&quot;</span><span class="fu">,</span>
+  <span class="dt">&quot;version&quot;</span><span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu">,</span>
+  <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;Creating React.js card for displaying my GitHub projects&quot;</span><span class="fu">,</span>
+  <span class="dt">&quot;main&quot;</span><span class="fu">:</span> <span class="st">&quot;main.js&quot;</span><span class="fu">,</span>
+  <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;Sidharth Mishra&quot;</span><span class="fu">,</span>
+  <span class="dt">&quot;license&quot;</span><span class="fu">:</span> <span class="st">&quot;MIT&quot;</span><span class="fu">,</span>
+  <span class="dt">&quot;private&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span>
+  <span class="dt">&quot;dependencies&quot;</span><span class="fu">:</span> <span class="fu">{</span>
+    <span class="dt">&quot;jquery&quot;</span><span class="fu">:</span> <span class="st">&quot;3.2.1&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;react&quot;</span><span class="fu">:</span> <span class="st">&quot;16.0.0&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;react-dom&quot;</span><span class="fu">:</span> <span class="st">&quot;16.0.0&quot;</span>
+  <span class="fu">},</span>
+  <span class="dt">&quot;devDependencies&quot;</span><span class="fu">:</span> <span class="fu">{</span>
+    <span class="dt">&quot;babel-core&quot;</span><span class="fu">:</span> <span class="st">&quot;6.26.0&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;babel-loader&quot;</span><span class="fu">:</span> <span class="st">&quot;7.1.2&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;babel-preset-env&quot;</span><span class="fu">:</span> <span class="st">&quot;1.6.1&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;babel-preset-react&quot;</span><span class="fu">:</span> <span class="st">&quot;6.24.1&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;css-loader&quot;</span><span class="fu">:</span> <span class="st">&quot;0.28.7&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;extract-text-webpack-plugin&quot;</span><span class="fu">:</span> <span class="st">&quot;3.0.2&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;html-webpack-plugin&quot;</span><span class="fu">:</span> <span class="st">&quot;2.30.1&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;0.12.7&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;style-loader&quot;</span><span class="fu">:</span> <span class="st">&quot;0.19.0&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;webpack&quot;</span><span class="fu">:</span> <span class="st">&quot;3.8.1&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;webpack-dev-server&quot;</span><span class="fu">:</span> <span class="st">&quot;2.9.3&quot;</span>
+  <span class="fu">},</span>
+  <span class="dt">&quot;scripts&quot;</span><span class="fu">:</span> <span class="fu">{</span>
+    <span class="dt">&quot;start&quot;</span><span class="fu">:</span> <span class="st">&quot;webpack-dev-server&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;build&quot;</span><span class="fu">:</span> <span class="st">&quot;webpack&quot;</span>
+  <span class="fu">}</span>
+<span class="fu">}</span></code></pre></div>
+<hr />
+<p>I had added <code>build</code> and <code>start</code> script functions to the <code>package.json</code> and this enabled me to call <em>Webpack</em>’s server and bundling through <code>yarn</code>.</p>
+<hr />
+<pre class="bash-shell"><code>yarn start --watch    # for calling the live reloading webpack-dev-server; for testing
+
+yarn build            # the actual bundling happens here, bin directory is generated with all bundles</code></pre>
+<hr />
+<p>In my blog, the <code>GitHubCards</code> component is used in the <a href="../projects.html">Projects page</a></p>
+<p>To conclude, all in all, <em>React</em> and <em>Webpack</em> were cool to work with. I now have a better understanding of the front-end sea.</p>
+<p>Will continue to dive deeper into the front-end sea …</p>
+<hr />
+<blockquote>
+<p>Note: <a href="../posts/2017-11-01-front-end-sea-2.html">Part#2</a> can be found <a href="../posts/2017-11-01-front-end-sea-2.html">here</a>.</p>
+</blockquote>
+<h3 id="references">References:</h3>
+<p>[1] Calhoun, D., “What is amd, commonjs, and umd?”, https://www.davidbcalhoun.com/2014/what-is-amd-commonjs-and-umd/</p>
+<p>[2] Webpack docs, “Authoring libraries”, https://webpack.js.org/guides/author-libraries/</p>
+<p>[3] Webpack text extraction plugin docs, https://github.com/webpack-contrib/extract-text-webpack-plugin</p>
+<p>[4] Nader, D., “Beginner’s guide to Webpack”, https://medium.com/javascript-training/beginner-s-guide-to-webpack-b1f1a3638460</p>
+<p>[5] React docs, “React.Component and Lifecycle methods”, https://reactjs.org/docs/react-component.html#shouldcomponentupdate</p>
+<p>[6] ozh, github-colors, https://github.com/ozh/github-colors/blob/master/colors.json</p>
     </section>
 </article>
 
