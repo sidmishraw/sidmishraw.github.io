@@ -9,33 +9,22 @@
 
 $.noConflict();
 
-//# keeping track of last page
-let lastPage = null;
-//# keeping track of last page
-
 jQuery("document").ready(function() {
-  let lastPartOfURL = window.location.href.split("/").splice(3);
+  let lastPartOfURL = window.location.href
+    .split("/")
+    .splice(3)
+    .filter(x => x.length > 0);
 
   switch (lastPartOfURL.length) {
     case 0: {
-      if (!lastPage) {
-        lastPage = jQuery("ul.hide-on-med-and-down>li>a[href='./']").parent();
-      } else {
-        jQuery(lastPage).removeClass("active");
-      }
       // the home page
-      jQuery("ul.hide-on-med-and-down>li>a[href='./']")
+      jQuery("#home")
         .parent()
         .addClass("active"); // make HOME active
       break;
     }
     case 1: {
-      if (!lastPage) {
-        lastPage = jQuery(`ul.hide-on-med-and-down>li>a[href='./${lastPartOfURL[0]}']`).parent();
-      } else {
-        jQuery(lastPage).removeClass("active");
-      }
-      jQuery(`ul.hide-on-med-and-down>li>a[href='./${lastPartOfURL[0]}']`)
+      jQuery(`#${lastPartOfURL[0].split(".")[0]}`)
         .parent()
         .addClass("active");
       break;
@@ -43,12 +32,7 @@ jQuery("document").ready(function() {
     case 2: {
       // archives or posts
       // archive is one directory up
-      if (!lastPage) {
-        lastPage = jQuery(`ul.hide-on-med-and-down>li>a[href='../archive.html']`).parent();
-      } else {
-        jQuery(lastPage).removeClass("active");
-      }
-      jQuery(`ul.hide-on-med-and-down>li>a[href='../archive.html']`)
+      jQuery("#archive")
         .parent()
         .addClass("active");
       break;
