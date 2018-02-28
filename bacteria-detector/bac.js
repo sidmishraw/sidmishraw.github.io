@@ -16,4 +16,14 @@ $(document).ready(function() {
       $("#resultDiv").hide();
       $("#searchDiv").show();
     });
+
+  // Disable scrolling.
+  document.ontouchmove = function(e) {
+    e.preventDefault();
+  };
+
+  // Enable scrolling.
+  document.ontouchmove = function(e) {
+    return true;
+  };
 });
