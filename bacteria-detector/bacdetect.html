@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>bacteria-detector</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <style>
+        .appback {
+            background-image: url("aHR0cDovL3d3dy5saXZlc2NpZW5jZS5jb20vaW1hZ2VzL2kvMDAwLzA3Ny80MzEvb3JpZ2luYWwvYmFjaWxsdXMtYmFjdGVyaWEtMTUwNzA5LmpwZw==.webp");
+            background-repeat: no-repeat;
+            height: 100vh;
+            background-size: cover;
+            background-blend-mode: darken;
+            background-position-x: center;
+            background-position-y: center;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+    </style>
+</head>
+
+<body class="appback">
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <div class="center-align">
+                        <div class="row">
+                            <h2>
+                                <div class="col s12 center-aligned">
+                                    <p>
+                                        <span class="entangled green-text text-darken-1">Bacteri</span>
+                                        <span class="thin green-text text-darken-1">Wave</span>
+                                    </p>
+                                </div>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <!-- RESULT DIV -->
+            <div id="resultDiv" class="row hidden">
+                <div class="card">
+                    <div class="card-image waves-effect waves-block waves-light">
+                        <img class="activator responsive-img" src="bacteria-18929-2880x1800.jpg">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4">
+                            Search Results
+                            <i class="material-icons right">more_vert</i>
+                        </span>
+                        <p>
+                            <div class="center-align">
+                                <a id="doneButton" class="btn btn-floating pulse green darken-3">
+                                    <i class="material-icons">done</i>
+                                </a>
+                            </div>
+                        </p>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4">
+                            Your search results
+                            <i class="material-icons right">close</i>
+                        </span>
+                        <p>Probable bacteria count: A lot!!!</p>
+                    </div>
+                </div>
+            </div>
+            <!-- RESULT DIV -->
+        </div>
+    </main>
+    <footer>
+        <div id="searchDiv" class="row">
+            <div class="center-align">
+                <a id="searchButton" class="btn btn-floating pulse green darken-3">
+                    <i class="material-icons">settings_power</i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script src="./bac.js"></script>
+</body>
+
+</html>
