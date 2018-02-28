@@ -95,6 +95,14 @@
             border-color: #aeea00 !important;
             border-width: 50px;
         }
+
+        .showMe {
+            display: block;
+        }
+
+        .hideMe {
+            display: none;
+        }
     </style>
 </head>
 
@@ -126,7 +134,8 @@
             <div id="resultDiv" class="row hidden">
                 <div class="card">
                     <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator responsive-img" src="bacteria-18929-2880x1800.jpg">
+                        <img id="harmful" class="activator responsive-img" src="pathogen-pseudomonas-aeroginosa.jpg">
+                        <img id="nonHarmful" class="activator responsive-img" src="green-icon.png">
                     </div>
                     <div class="card-content">
                         <span class="card-title activator grey-text text-darken-4">
@@ -146,7 +155,8 @@
                             Your search results
                             <i class="material-icons right">close</i>
                         </span>
-                        <p id="resContents">Probable bacteria count: A lot!!!</p>
+                        <p id="harmText" class="hide">Pathogen Pseudomonas Aeroginosa detected, causes penumonia!!!</p>
+                        <p id="nonHarmText" class="hide">No harmful bacteria found!</p>
                     </div>
                 </div>
             </div>

@@ -18,11 +18,35 @@ $(document).ready(function() {
           $("body").removeClass("bac_found");
           $("body").addClass("bac_not_found");
         }
-        clicked = !clicked;
+
         $("#loader").hide();
         $("#searchDiv").hide();
         $("#resultDiv").show();
-      }, 5000);
+
+        if (!clicked) {
+          $("#nonHarmful").removeClass("show");
+          $("#nonHarmful").addClass("hide");
+          $("#harmful").removeClass("hide");
+          $("#harmful").addClass("show");
+
+          $("#harmText").removeClass("hide");
+          $("#harmText").addClass("show");
+          $("#nonHarmText").removeClass("show");
+          $("#nonHarmText").addClass("hide");
+        } else {
+          $("#nonHarmful").removeClass("hide");
+          $("#nonHarmful").addClass("show");
+          $("#harmful").removeClass("show");
+          $("#harmful").addClass("hide");
+
+          $("#harmText").removeClass("show");
+          $("#harmText").addClass("hide");
+          $("#nonHarmText").removeClass("hide");
+          $("#nonHarmText").addClass("show");
+        }
+
+        clicked = !clicked;
+      }, 2000);
     });
 
   $("#doneButton")
