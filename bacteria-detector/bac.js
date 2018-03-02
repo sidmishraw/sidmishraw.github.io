@@ -21,6 +21,7 @@ $(document).ready(function() {
 
         $("#loader").hide();
         $("#searchDiv").hide();
+        $("#tenor").hide();
         $("#resultDiv").show();
 
         if (!clicked) {
@@ -58,6 +59,7 @@ $(document).ready(function() {
       $("body").removeClass("bac_not_found");
       $("body").addClass("appback");
       $("#searchDiv").show();
+      $("#tenor").show();
     });
 
   // Disable scrolling.

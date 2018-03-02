@@ -40,8 +40,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <style>
         .appback {
-            background-image: url("BActeriGONE.png");
-            background-repeat: no-repeat;
+            /* background-image: url("tenor.gif"); */
+            /* background-repeat: no-repeat; */
+            background-color: black;
             height: 100vh;
             background-size: cover;
             background-blend-mode: darken;
@@ -54,14 +55,14 @@
         }
 
         .bac_found {
-            background-color: #e53935 !important;
+            background-color: #424242 !important;
             overflow: hidden;
             margin: 0;
             padding: 0;
         }
 
         .bac_not_found {
-            background-color: #aeea00 !important;
+            background-color: #424242 !important;
             overflow: hidden;
             margin: 0;
             padding: 0;
@@ -108,9 +109,23 @@
 
 <body class="appback">
     <header>
+        <div class="row">
+            <nav class="lime accent-4 z-depth-5">
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo center">
+                        <span class="thin">BacteriWave</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
         <div class="row"></div>
         <div class="row"></div>
         <div class="row"></div>
+        <div id="tenor" class="row">
+            <div class="col l8 center">
+                <img class="responsive-img" src="tenor.gif">
+            </div>
+        </div>
         <div class="row"></div>
     </header>
     <main>
@@ -132,31 +147,43 @@
             </div>
             <!-- RESULT DIV -->
             <div id="resultDiv" class="row hidden">
-                <div class="card">
+                <div class="card z-depth-5">
                     <div class="card-image waves-effect waves-block waves-light">
-                        <img id="harmful" class="activator responsive-img" src="pathogen-pseudomonas-aeroginosa.jpg">
-                        <img id="nonHarmful" class="activator responsive-img" src="green-icon.png">
+                        <img id="harmful" class="activator responsive-img" src="13_infect.png">
+                        <img id="nonHarmful" class="activator responsive-img" src="p2_infect.png">
                     </div>
                     <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">
-                            Search Results
-                            <i class="material-icons right">more_vert</i>
-                        </span>
-                        <p>
-                            <div class="center-align">
-                                <a id="doneButton" class="btn btn-floating pulse green darken-3">
-                                    <i class="material-icons">done</i>
-                                </a>
-                            </div>
-                        </p>
+                        <div class="row">
+                            <span class="card-title activator grey-text text-darken-4 thin center-align">
+                                <i class="material-icons right">more_vert</i>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <p>
+                                <div class="center-align">
+                                    <a id="doneButton" class="btn btn-floating pulse lime accent-4">
+                                        <i class="material-icons">done</i>
+                                    </a>
+                                </div>
+                            </p>
+                        </div>
                     </div>
                     <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">
-                            Your search results
+                        <span class="card-title center-align grey-text text-darken-4 thin">
+                            Surface Analysis
                             <i class="material-icons right">close</i>
                         </span>
-                        <p id="harmText" class="hide">Pathogen Pseudomonas Aeroginosa detected, causes penumonia!!!</p>
-                        <p id="nonHarmText" class="hide">No harmful bacteria found!</p>
+                        <p id="harmText" class="hide center-align flow-text thin">
+                            <br> Minute concentration of Micrococcus: a sphere-shaped and relatively harmless bacterium.
+                            <br> Minute Concentration of Staphylococcus: a spherical bacterium known to cause Staph Infection.
+                            <br> Minute concentration of Bacillus: a rod shaped and relatively harmless bacterium.
+                            <br> Recommended Procedures: Use antibacterial wipes, spray, or cleansing products to wipe down the
+                            table for infection aversion.
+                        </p>
+                        <p id="nonHarmText" class="hide center-align flow-text thin">
+                            <br> No harmful bacteria found in your vicinity. Prevent any malicious bacterial exposure by using
+                            wipes, sprays, or other cleansing products. Press the check button to return to the home screen.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -166,9 +193,11 @@
     <footer>
         <div id="searchDiv" class="row">
             <div class="center-align">
-                <a id="searchButton" class="btn btn-floating pulse lime accent-4">
-                    <i class="material-icons">settings_power</i>
+                <a id="searchButton" class="btn-large btn-floating pulse lime accent-4 z-depth-5">
+                    <i class="material-icons md-60 ">settings_power</i>
                 </a>
+                <p class="pulse white-text thin">Press
+                    <span class="lime-text text-accent-4">power</span> button to start scan</p>
             </div>
         </div>
     </footer>
