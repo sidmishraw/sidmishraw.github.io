@@ -33,7 +33,7 @@
  *OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @last-modified Thu Mar 08 2018 12:53:18 GMT-0800 (PST)
+ * @last-modified Thu Mar 08 2018 12:54:59 GMT-0800 (PST)
  */
 
 let swallow;
@@ -50,6 +50,6 @@ function setup() {
 
 // Draw loop
 function draw() {
-  scale(0.25, 0.25);
+  scale(0.0233, 0.0233);
   image(swallow, height / 2, swallow.width / 2, swallow.height / 2);
 }
