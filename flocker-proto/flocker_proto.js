@@ -33,7 +33,7 @@
  *OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @last-modified Thu Mar 08 2018 12:47:02 GMT-0800 (PST)
+ * @last-modified Thu Mar 08 2018 12:49:15 GMT-0800 (PST)
  */
 
 let swallow;
@@ -45,10 +45,10 @@ function preload() {
 //  Flocker p5.js app setup
 function setup() {
   createCanvas(640, 480);
-  image(swallow, 50, 0, 40, 20, 50, 50, 50, 50);
+  swallow = loadImage("./swallow-img.png");
 }
 
 // Draw loop
 function draw() {
-  image(swallow, 50, 0, 40, 20, 50, 50, 50, 50);
+  image(swallow, height / 2, img.width / 2, img.height / 2);
 }
