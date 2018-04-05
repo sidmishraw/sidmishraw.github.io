@@ -39,9 +39,9 @@ $(document).ready(function() {
   //Define Initial Values
 
   /*
-    let $VELOCITY = 10;
-    let $ACCELERATION = 0.03;
-    */
+      let $VELOCITY = 10;
+      let $ACCELERATION = 0.03;
+      */
   let $SEPARATION_WEIGHT = flocker.$separationWeight;
   let $DESIRED_SEPARATION = flocker.$desiredSeparation;
 
@@ -50,125 +50,6 @@ $(document).ready(function() {
 
   let $COHESION_WEIGHT = flocker.$cohesionWeight;
   let $DESIRED_COHESION = flocker.$desiredCohesion;
-
-  /*
-
-    /!**
-     *
-     * Set Velocity Properties for the flocker
-     *
-     *!/
-
-    setVelocity($VELOCITY);
-    setVelocity_text($VELOCITY);
-
-    // Handling the velocity of the birds with the help of range input
-    $('#velocity').change(function () {
-        setVelocity($(this).val());
-        console.log($(this).val());
-        setVelocity_text($(this).val());
-    });
-    // function to set the maxVelocity of the flocker
-    function setMAX_VELOCITY($val) {
-        MAX_VELOCITY =$val;
-    }
-
-    // function will set the velocity slider css according to the change value
-    function setVelocity($val) {
-        var x = ($val - $("#velocity").attr('min')) / ($("#velocity").attr('max') - $("#velocity").attr('min'));
-        $("#velocity").css('background-image',
-            '-webkit-gradient(linear, left top, right top, '
-            + 'color-stop(' + x + ', #012304), '
-            + 'color-stop(' + x + ', #C5C5C5)'
-            + ')'
-        );
-        $("#velocity").val($val)
-        console.log("Value is in Slider:"+$val);
-        setMAX_VELOCITY($val);
-    }
-    // function will set the velocity of the text box
-    function setVelocity_text($val){
-        $('#velocity_text').val($val);
-        setMAX_VELOCITY($val);
-    }
-
-    //function will check the value as soon as it is entered in the
-    $('#velocity_text').keyup(function(){
-       var x = $(this).val();
-       console.log(x +" -> "+ $.isNumeric(x));
-       if($.isNumeric(x)){
-           x = parseInt(x);
-           if(x<0 || x>50){
-               $("#velocity_error").html("<br/>Entered value should be in the range of 0 to 50");
-           }else{
-               setVelocity(x);
-               $("#velocity_error").html("");
-           }
-       }else{
-           $("#velocity_error").html("<br/>Entered value is not a number");
-       }
-    });
-
-
-    /!**
-     *
-     * Set the Acceleration Property
-     *!/
-
-    //set the default values for text and slider
-    setAcceleration($ACCELERATION);
-    setAcceleration_text($ACCELERATION);
-
-    // set the value for the flocker object
-    function setMAX_ACCELERATION($val) {
-        console.log("Setting Max Acceleration Property to :" +$val);
-        MAX_ACCELERATION = $val;
-    }
-
-    //handle acceleration css when change is made through slider
-    function setAcceleration($val) {
-        var x = ($val - $("#acc").attr('min')) / ($("#acc").attr('max') - $("#acc").attr('min'));
-        $("#acc").css('background-image',
-            '-webkit-gradient(linear, left top, right top, '
-            + 'color-stop(' + x + ', #012304), '
-            + 'color-stop(' + x + ', #C5C5C5)'
-            + ')'
-        );
-        $("#acc").val($val);
-        console.log("Acceleartion Value is :"+$val);
-        setMAX_ACCELERATION($val);
-    }
-
-    //set acceleration text when any change in acceleration is made
-    function setAcceleration_text($val) {
-        $("#acc_text").val($val);
-        setMAX_ACCELERATION($val);
-    }
-
-    // handle the changes maded through acceleration slider
-    $("#acc").change(function () {
-        setAcceleration($(this).val());
-        console.log($(this).val());
-        setAcceleration_text($(this).val());
-    });
-
-    //handle the changes made through text box
-    $("#acc_text").keyup(function () {
-       var $val = $(this).val();
-       console.log("Value of acceleration is :"+$val);
-       if($.isNumeric($val)){
-           if($val< 0 || $val>1){
-               $("#acc_error").html("<br/> Acceleration should be in the range of 0 to 1");
-           }else{
-               $("#acc_error").html("");
-               setAcceleration($val);
-           }
-       }else{
-           $("#acc_error").html("<br/> Acceleration is restricted to numeric entry only");
-       }
-    });
-
-*/
 
   /**
    * Set and Handle Separation Weight property
@@ -211,6 +92,7 @@ $(document).ready(function() {
 
   // handle the changes maded through separation weight slider
   $("#sw").change(function() {
+    $("#sw_error").html("");
     setSeparationWeight($(this).val());
     console.log($(this).val());
     setSeparationWeight_text($(this).val());
@@ -272,6 +154,7 @@ $(document).ready(function() {
 
   // handle the changes maded through Alignment Weight slider
   $("#aw").change(function() {
+    $("#aw_error").html("");
     setAlignmentWeight($(this).val());
     console.log($(this).val());
     setAlignmentWeight_text($(this).val());
@@ -333,6 +216,7 @@ $(document).ready(function() {
 
   // handle the changes maded through Cohesion Weight slider
   $("#cw").change(function() {
+    $("#cw_error").html("");
     setCohesionWeight($(this).val());
     console.log("Value of Cohesion Weight is :" + $(this).val());
     setCohesionWeight_text($(this).val());
@@ -394,6 +278,7 @@ $(document).ready(function() {
 
   //function is used to continuously monitor the slider for the Desired Separation
   $("#ds").change(function() {
+    $("#ds_error").html("");
     setDesiredSeparation($(this).val());
     setDesiredSeparation_text($(this).val());
   });
@@ -456,6 +341,7 @@ $(document).ready(function() {
 
   //function is used to continously monitor the range slider and if any change is made, update the property desired alignment
   $("#da").change(function() {
+    $("#da_error").html("");
     var $val = $(this).val();
     setDesiredAlignment($val);
     setDesiredAlignment_text($val);
@@ -468,7 +354,7 @@ $(document).ready(function() {
       if ($val < 0 || $val > 300) {
         $("#da_error").html("<br/>Desired Alignment value should be in the range 0 to 300");
       } else {
-        $("#da_error").html();
+        $("#da_error").html("");
         setDesiredAlignment($val);
       }
     } else {
@@ -519,6 +405,7 @@ $(document).ready(function() {
 
   //Monitors and Handles the slider Desired Cohesion property for the Range Slider
   $("#dc").change(function() {
+    $("#dc_error").html("");
     var $val = $(this).val();
     setDesiredCohesion($val);
     setDesiredCohesion_text($val);

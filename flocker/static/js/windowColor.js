@@ -123,6 +123,7 @@ $("document").ready(function() {
 
   // handle the changes made to Red color value through slider
   $("#r").change(function() {
+    $("#r_error").html("");
     setRValue($(this).val());
     console.log($(this).val());
     setRValue_text($(this).val());
@@ -172,6 +173,7 @@ $("document").ready(function() {
 
   // handle the changes made to Green color value through slider
   $("#g").change(function() {
+    $("#g_error").html("");
     setGValue($(this).val());
     console.log($(this).val());
     setGValue_text($(this).val());
@@ -221,6 +223,7 @@ $("document").ready(function() {
 
   // handle the changes made to Blue color value through slider
   $("#b").change(function() {
+    $("#b_error").html("");
     setBValue($(this).val());
     console.log($(this).val());
     setBValue_text($(this).val());
