@@ -39,9 +39,9 @@ $(document).ready(function() {
   //Define Initial Values
 
   /*
-      let $VELOCITY = 10;
-      let $ACCELERATION = 0.03;
-      */
+        let $VELOCITY = 10;
+        let $ACCELERATION = 0.03;
+        */
   let $SEPARATION_WEIGHT = flocker.$separationWeight;
   let $DESIRED_SEPARATION = flocker.$desiredSeparation;
 
@@ -96,6 +96,24 @@ $(document).ready(function() {
     setSeparationWeight($(this).val());
     console.log($(this).val());
     setSeparationWeight_text($(this).val());
+  });
+
+  //Handle scroll-wheel event on text of seperation weight
+  $("#sw_text").bind("mousewheel", function(event, delta) {
+    console.log("Wheel event detect" + "\nDelta is :" + delta);
+    var $val = parseFloat($(this).val());
+    if (delta > 0) {
+      if ($val < 5) {
+        $val = $val + 0.1;
+        setSeparationWeight($val);
+      }
+    } else {
+      if ($val > 1) {
+        $val = $val - 0.1;
+        setSeparationWeight($val);
+      }
+    }
+    $("#sw_error").html("");
   });
 
   //handle the changes made through text box
@@ -160,6 +178,24 @@ $(document).ready(function() {
     setAlignmentWeight_text($(this).val());
   });
 
+  //Handle scroll-wheel event on text of alignment weight
+  $("#aw_text").bind("mousewheel", function(event, delta) {
+    var $val = parseFloat($(this).val());
+    if (delta > 0) {
+      if ($val < 5) {
+        $val = $val + 0.1;
+        setAlignmentWeight($val);
+      }
+    } else {
+      if ($val > 1) {
+        $val = $val - 0.1;
+        setAlignmentWeight($val);
+      }
+    }
+
+    $("#aw_error").html("");
+  });
+
   //handle the changes made through text box
   $("#aw_text").keyup(function() {
     var $val = $(this).val();
@@ -222,6 +258,23 @@ $(document).ready(function() {
     setCohesionWeight_text($(this).val());
   });
 
+  //Handle scroll-wheel event on text of Cohesion weight
+  $("#cw_text").bind("mousewheel", function(event, delta) {
+    var $val = parseFloat($(this).val());
+    if (delta > 0) {
+      if ($val < 5) {
+        $val = $val + 0.1;
+        setCohesionWeight($val);
+      }
+    } else {
+      if ($val > 1) {
+        $val = $val - 0.1;
+        setCohesionWeight($val);
+      }
+    }
+    $("#cw_error").html("");
+  });
+
   //handle the changes made through text box
   $("#cw_text").keyup(function() {
     var $val = $(this).val();
@@ -281,6 +334,31 @@ $(document).ready(function() {
     $("#ds_error").html("");
     setDesiredSeparation($(this).val());
     setDesiredSeparation_text($(this).val());
+  });
+
+  //Handle scroll-wheel event on text of Desired Speration
+  $("#ds_text").bind("mousewheel", function(event, delta) {
+    var $val = parseFloat($(this).val());
+    if (delta > 0) {
+      if ($val < 296) {
+        $val = $val + 5;
+        setDesiredSeparation($val);
+      } else {
+        $val = 300;
+        setDesiredSeparation($val);
+        setDesiredSeparation_text($val);
+      }
+    } else {
+      if ($val > 4) {
+        $val = $val - 5;
+        setDesiredSeparation($val);
+      } else {
+        $val = 0;
+        setDesiredSeparation($val);
+        setDesiredSeparation_text($val);
+      }
+    }
+    $("#ds_error").html("");
   });
 
   //function is used to continously monitor the changes made through text box of Desired Separation
@@ -347,6 +425,31 @@ $(document).ready(function() {
     setDesiredAlignment_text($val);
   });
 
+  //Handle scroll-wheel event on text of Desired Alignment
+  $("#da_text").bind("mousewheel", function(event, delta) {
+    var $val = parseFloat($(this).val());
+    if (delta > 0) {
+      if ($val < 296) {
+        $val = $val + 5;
+        setDesiredAlignment($val);
+      } else {
+        $val = 300;
+        setDesiredAlignment($val);
+        setDesiredAlignment_text($val);
+      }
+    } else {
+      if ($val > 4) {
+        $val = $val - 5;
+        setDesiredAlignment($val);
+      } else {
+        $val = 0;
+        setDesiredAlignment($val);
+        setDesiredAlignment_text($val);
+      }
+    }
+    $("#da_error").html("");
+  });
+
   //function is used to continously monitor the text inbox, if any change is made it is validated and updated on slider as well
   $("#da_text").keyup(function() {
     var $val = $(this).val();
@@ -409,6 +512,31 @@ $(document).ready(function() {
     var $val = $(this).val();
     setDesiredCohesion($val);
     setDesiredCohesion_text($val);
+  });
+
+  //Handle scroll-wheel event on text of Desired Cohesion
+  $("#dc_text").bind("mousewheel", function(event, delta) {
+    var $val = parseFloat($(this).val());
+    if (delta > 0) {
+      if ($val < 296) {
+        $val = $val + 5;
+        setDesiredCohesion($val);
+      } else {
+        $val = 300;
+        setDesiredCohesion($val);
+        setDesiredCohesion_text($val);
+      }
+    } else {
+      if ($val > 4) {
+        $val = $val - 5;
+        setDesiredCohesion($val);
+      } else {
+        $val = 0;
+        setDesiredCohesion($val);
+        setDesiredCohesion_text($val);
+      }
+    }
+    $("#dc_error").html("");
   });
 
   //Monitors and Handles the Desired Cohesion property for input box
