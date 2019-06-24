@@ -1,8 +1,3 @@
-# Sid's Log
+# Sid's log
 
-My personal blog.
-
-### Changelog v0.1
-* Material CSS adoption is a WIP. (80%)
-
-* Added [gitlangcards](https://github.com/sidmishraw/gitlangcards) component for carousel.
+This is my personal website built using vuepress and vue.js.
